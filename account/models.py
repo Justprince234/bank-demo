@@ -73,16 +73,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     """Custom user class inheriting AbstractBaseUser class."""
     
-    first_name = models.CharField(max_length=50)
-    middle_name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
     username = models.CharField(max_length=150, validators=[UnicodeUsernameValidator, ],unique=True)
     email = models.EmailField(max_length=150, unique=True)
     date_of_birth = models.DateField(default=return_date_time)
-    gender = models.CharField(choices=SEX,default="G", max_length=1)
+    gender = models.CharField(choices=SEX,default="G", max_length=10)
     phone = models.IntegerField(default=0)
-    security_question = models.CharField(choices=QUESTION_TYPE, default="Active", max_length=100)
-    security_answer = models.CharField(max_length=100)
+    security_question = models.CharField(choices=QUESTION_TYPE, default="Active", max_length=300)
+    security_answer = models.CharField(max_length=200)
     account_number = models.CharField(default=random_account, unique=True, max_length=200)
     available_balance = models.DecimalField(default=0, max_digits=50, decimal_places=2)
     status = models.CharField(choices=STATUS, default="Active", max_length=20)
