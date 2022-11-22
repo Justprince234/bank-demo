@@ -6,8 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+<<<<<<< HEAD
 *.eml
 
+=======
+>>>>>>> 50f0989117fef23130d2c4dc046d33e8553fe158
 # Distribution / packaging
 .Python
 build/
