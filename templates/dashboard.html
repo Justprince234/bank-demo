@@ -41,9 +41,9 @@
               <a class="nav-link text-danger" href="{% url 'core:logout' %}" id="dropdownId" aria-expanded="false"> Logout</a>
               
               <li class="nav-item dropdown">
-                {% for update in updates %}
-                  <img src="{{ update.passport.url }}" class="rounded-circle px-3 py-2 text-white j_in_circle">Hello, {{update.user.first_name}}
-                {% endfor %}
+                {% if updates.passport %}
+                  <img src="{{ updates.passport.url }}" class="rounded-circle px-3 py-2 text-white j_in_circle">Hello, {{updates.user.first_name}}
+                {% endif %}
             </li>
             
             <!-- <li class="nav-item pt-1 question-mark">
