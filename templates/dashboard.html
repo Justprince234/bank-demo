@@ -24,9 +24,7 @@
             </li>
 
             <li class="nav-item">
-              {% if updates.passport %}
                     <a class="nav-link text-muted" href="{% url 'core:profile' %}">Update Profile</a>
-                {% endif%}
                 </li>
 
                 <li class="nav-item">
@@ -43,9 +41,10 @@
               <a class="nav-link text-danger" href="{% url 'core:logout' %}" id="dropdownId" aria-expanded="false"> Logout</a>
               
               <li class="nav-item dropdown">
-                {% if updates.passport %}
-                  <img src="{{ updates.passport.url }}" class="rounded-circle px-3 py-2 text-white j_in_circle">Hello, {% for update in updates %}{{update.user.first_name}}{% endfor %}
-                {% endif %}
+                {% for update in updates %}
+                {% if update.passport %}
+                  <img src="{{ update.passport.url }}" class="rounded-circle px-3 py-2 text-white j_in_circle"> {% endif %} Hello, {{update.user.first_name}}
+                {% endfor %}
             </li>
             
             <!-- <li class="nav-item pt-1 question-mark">
