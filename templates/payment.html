@@ -28,15 +28,6 @@
         <li class="nav-item">
                 <a class="nav-link text-muted" href="#">Expenses</a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link text-muted" href="#">Goals</a>
-          </li>
-
-          <li class="nav-item">
-              <a class="nav-link text-muted" href="#">CDs</a>
-          </li>
-
         </ul>
 
         <ul class="navbar-nav navbar-nav-scroll align-items-lg-center">
@@ -45,8 +36,7 @@
         <li class="nav-item dropdown">
                
           <a class="nav-link  text-muted" href="{% url 'core:profile' %}" id="">
-              <img src="{% static 'img/upload-image.jpg' %}" class="rounded-circle px-3 py-2 text-white j_in_circle">Joseph Grimaldi
-            </a>
+              <img src="{% static 'img/upload-image.jpg' %}" class="rounded-circle px-3 py-2 text-white j_in_circle">Hello, {% for update in updates %}{{update.user.first_name}}{% endfor %}</a>
           <!-- <div class="dropdown-menu" aria-labelledby="dropdownId">
               <a class="dropdown-item" href="#">Action 1</a>
               <a class="dropdown-item" href="#">Action 2</a>
@@ -68,7 +58,11 @@
   </nav><hr>
     
       <section class="Container">
-            <h3>Pay with...</h3>
+            <h3>Move funds...</h3> <center>
+              {% for message in messages %}
+              <p style="color: red">{{message}}</p>
+              {% endfor %}
+          </center>
 
          <div class="d-flex gap-3">
 
@@ -89,70 +83,69 @@
                                     </button>
                             </div>
                             <div class="modal-body">
-                                <form class="px-4">
-                                   
-                           
+                                <form action="{% url 'core:international' %}" class="px-4" method="POST">
+                                    {% csrf_token %}
                                      <div class="form-row row mb-3">
                                        <div class="col-md-6">
-                                         <label for="firstname">Full name</label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <label for="to_fullname">Full name</label>
+                                         <input name="to_fullname" type="text" class="form-control border border-1 bg-white" placeholder="John Doe">
                                        </div>
                                        <div class="col-md-6">
                                          <label for="lastname">Bank name</label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="bank_name" type="text" class="form-control border border-1 bg-white" placeholder="Bank name">
                                        </div>
                                      </div>
                            
                                      <div class="form-row row mb-3">
                                        <div class="col-md-6">
                                          <label for="inputEmail4">Account Number</label>
-                                         <input type="number" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="to_account" type="number" class="form-control border border-1 bg-white" placeholder="1234567890">
                                        </div>
                                        <div class="col-md-6">
                                          <label for="inputEmail4">Amount </label>
-                                         <input type="number" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="transfer_amount" type="number" class="form-control border border-1 bg-white" placeholder="12345">
                                        </div>
                                      </div>
                            
                                      <div class="form-row row mb-3">
                                        <div class="col-md-6">
                                          <label for="text">IBAN number</label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="iban_number" type="text" class="form-control border border-1 bg-white" placeholder="12345">
                                        </div>
                                        <div class="col-md-6">
                                          <label for="text">Routing number </label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="routing_number" type="text" class="form-control border border-1 bg-white" placeholder="12345">
                                        </div>
                                      </div>
 
                                      <div class="form-row row mb-3">
                                      <div class="col-md-6">
                                          <label for="text">Country </label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="bank_country" type="text" class="form-control border border-1 bg-white" placeholder="Country">
                                        </div>
                                        <div class="col-md-6">
                                          <label for="text">Currency type </label>
-                                         <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                         <input name="currency_type" type="text" class="form-control border border-1 bg-white" placeholder="USD">
                                        </div>
                                      </div>
 
                                      <div class="form-row row mb-3">
                                       <div class="col-md-6">
                                         <label for="inputEmail4">Description</label>
-                                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                        <input name="transfer_description" type="text" class="form-control border border-1 bg-white" placeholder="Transfer description">
                                       </div>
                                       <div class="col-md-6">
                                         <label for="tel"> Transaction Pin </label>
-                                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                                        <input name="transaction_pin" type="text" class="form-control border border-1 bg-white" placeholder="0000">
                                       </div>
                                     </div>
-                           
+                                    <button type="submit" class="btn bg_amount_in_dollars text-white">Send</button>
                                    </form>
                             </div>
-                            <div class="modal-footer">
+                            <!-- <div class="modal-footer">
                                 <button type="button" class="btn shadow-none btn-danger" data-dismiss="modal">Close</button>
-                                <a href="{% url 'core:success' %}"><button type="button" class="btn bg_amount_in_dollars text-white">Pay</button></a>
-                            </div>
+                                <a href="{% url 'core:success' %}"><button type="submit" class="btn bg_amount_in_dollars text-white">Pay</button></a>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -176,51 +169,49 @@
                 
                 <!-- Modal body -->
                 <div class="modal-body">
-                  <form class="px-4">
-                                   
-                           
+                  <form action="{% url 'core:local' %}"  class="px-4" method="POST">
+                    {% csrf_token %}
                     <div class="form-row row mb-3">
                       <div class="col-md-6">
                         <label for="firstname">Full name</label>
-                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="to_fullname" type="text" class="form-control border border-1 bg-white" placeholder="John Doe">
                       </div>
                       <div class="col-md-6">
                         <label for="lastname">Bank name</label>
-                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="bank_name" type="text" class="form-control border border-1 bg-white" placeholder="Bank name">
                       </div>
                     </div>
           
                     <div class="form-row row mb-3">
                       <div class="col-md-6">
                         <label for="inputEmail4">Account Number</label>
-                        <input type="number" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="to_account" type="number" class="form-control border border-1 bg-white" placeholder="1234567890">
                       </div>
                       <div class="col-md-6">
                         <label for="inputEmail4">Amount </label>
-                        <input type="number" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="transfer_amount" type="number" class="form-control border border-1 bg-white" placeholder="1234">
                       </div>
                     </div>
           
                     <div class="form-row row mb-3">
                       <div class="col-md-6">
                         <label for="inputEmail4">Description</label>
-                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="transfer_description" type="text" class="form-control border border-1 bg-white" placeholder="Transfer description">
                       </div>
                       <div class="col-md-6">
                         <label for="tel"> Transaction Pin </label>
-                        <input type="text" class="form-control border border-1 bg-white" placeholder="">
+                        <input name="transaction_pin" type="text" class="form-control border border-1 bg-white" placeholder="0000">
                       </div>
                     </div>
-          
-
+                    <button type="submit" class="btn bg_amount_in_dollars text-white">Send</button>
                   </form>
                 </div>
                 
                 <!-- Modal footer -->
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                  <a href="{% url 'core:success' %}"><button type="button" class="btn bg_amount_in_dollars text-white">Pay</button></a>
-                </div>
+                  <a href="{% url 'core:success' %}"><button type="submit" class="btn bg_amount_in_dollars text-white">Pay</button></a>
+                </div> -->
                 
               </div>
             </div>

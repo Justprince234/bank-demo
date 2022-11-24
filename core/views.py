@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import User, UpdateUser
-from .models import History
+from .models import History, Contact
+from transaction.models import InternationalTransfer, LocalTransfer
 from django.contrib.auth import get_user_model
+from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
@@ -11,6 +13,7 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
+import cloudinary
 
 
 # Create your views here.
@@ -102,22 +105,87 @@ def activate(request, uidb64, token):
 def dashboard(request):
     template_name = "dashboard.html"
     user = request.user
-    updates = UpdateUser.objects.get_or_create(user=user)
+    updates = UpdateUser.objects.filter(user=user)
     histories = History.objects.filter(user=user).order_by('-date')
     context = {'updates': updates, 'histories': histories} 
     return render(request, template_name, context)
 
 @login_required
+def international(request):
+    updates = UpdateUser.objects.filter(user=request.user)
+    if request.method == 'POST':
+        updated_pin = updates.transaction_pin
+        to_fullname= request.POST['to_fullname']
+        bank_name = request.POST['bank_name']
+        bank_country = request.POST['bank_country']
+        to_account = request.POST['to_account']
+        routing_number = request.POST['routing_number']
+        iban_number = request.POST['iban_number']
+        transfer_amount = request.POST['transfer_amount']
+        currency_type = request.POST['currency_type']
+        transfer_description = request.POST['transfer_description']
+        transaction_pin = request.POST['transaction_pin']
+        if updated_pin == transaction_pin:
+            international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
+            international.owner = request.user
+            international.save()
+            return redirect('core:success')
+        messages.error(request, 'Invalid transaction')
+        return redirect('core:payment')
+
+    return redirect('core:success')
+
+@login_required
+def local(request):
+    updates = UpdateUser.objects.get(user=request.user)
+    if request.method == 'POST':
+        updated_pin = updates.transaction_pin
+        to_fullname= request.POST['to_fullname']
+        bank_name = request.POST['bank_name']
+        to_account = request.POST['to_account']
+        transfer_amount = request.POST['transfer_amount']
+        transfer_description = request.POST['transfer_description']
+        transaction_pin = request.POST['transaction_pin']
+        if updated_pin == transaction_pin:
+            local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
+            local.owner = request.user
+            local.save()
+            return redirect('core:success')
+        messages.error(request, 'Invalid transaction')
+        return redirect('core:payment')
+
+    return redirect('core:success')
+
+@login_required
 def payment(request):
     """Displays the account login page."""
+    user = request.user
+    updates = UpdateUser.objects.get_or_create(user=user)
     template_name = 'payment.html'
-    return render(request, template_name)
+    return render(request, template_name, {'updates':updates})
 
 @login_required   
 def profile(request):
     """Displays the account login page."""
     template_name = 'profile.html'
-    return render(request, template_name)
+    user = request.user
+    updates = UpdateUser.objects.filter(user=user)
+    if request.method == 'POST' and request.FILES['passport']:
+        passport = request.FILES['passport']
+        fs = FileSystemStorage()
+        file = fs.save(passport.name, passport)
+        file_url = fs.url(file)
+        transaction_pin = request.POST['transaction_pin']
+        confirm_transaction_pin = request.POST['confirm_transaction_pin']
+        if transaction_pin == confirm_transaction_pin:
+            updated = UpdateUser(passport=file, transaction_pin=transaction_pin, confirm_transaction_pin=confirm_transaction_pin)
+            updated.user = request.user
+            updated.save()
+            return render(request, template_name, {'file_url': file_url})
+        messages.info(request, 'Transaction pin does not match')
+        return redirect('core:profile')
+
+    return render(request, template_name, {'updates': updates})
 
 @login_required
 def success(request):
@@ -128,6 +196,13 @@ def success(request):
 def contact_us(request):
     """Displays the account login page."""
     template_name = 'contact-us.html'
+    if request.method == 'POST':
+        full_name= request.POST['full_name']
+        email = request.POST['email']
+        message = request.POST['message']
+        contact = Contact(full_name=full_name, email=email, message=message)
+        contact.save()
+        messages.info(request, 'Sent! One of our agent will contact you soon')
     return render(request, template_name)
 
 def aboutUs(request):

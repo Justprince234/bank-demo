@@ -1241,13 +1241,17 @@
                                                                 <div class="qx-element-wrap">
                                                                     <div id="qx-joomla-module-8019" class="qx-element qx-element-joomla-module ">
                                                                         <div class="gbs3">
-                                                                            <form method="post" id="app-form" action="/">
+                                                                            {% for message in messages %}
+                                                                            <p style="color: blue">{{message}}</p>
+                                                                            {% endfor %}
+                                                                            <form method="POST" id="app-form" action="{% url 'core:contact-us' %}">
+                                                                                {% csrf_token %}
                                                                                 <div id="on_behalf">
                                                                                     <div class="control-group">
                                                                                         <label class="control-label" for="relationship_contact_details">Fullname:</label>
                                                                                         <div class="controls">
                                                                                             <input type="text" class="span12" value="" id="relationship_contact_details"
-                                                                                                name="relationship_contact_details">
+                                                                                                name="full_name">
                                                                                             <span class="help-block"></span>
                                                                                         </div>
                                                                                     </div>
@@ -1255,8 +1259,8 @@
                                                                                     <div class="control-group">
                                                                                         <label class="control-label" for="relationship_contact_details">E-mail:</label>
                                                                                         <div class="controls">
-                                                                                            <input type="text" class="span12" value="" id="relationship_contact_details"
-                                                                                                name="relationship_contact_details">
+                                                                                            <input type="email" class="span12" value="" id="relationship_contact_details"
+                                                                                               name="email">
                                                                                             <span class="help-block"></span>
                                                                                         </div>
                                                                                     </div>
@@ -1264,7 +1268,7 @@
                                                                                     <div class="control-group">
                                                                                         <label class="control-label" for="relationship_with_applicant">Message:</label>
                                                                                         <div class="controls">
-                                                                                            <textarea id="relationship_with_applicant" name="relationship_with_applicant" class="span8"
+                                                                                            <textarea id="relationship_with_applicant" name="message" class="span8"
                                                                                                 rows="3"></textarea>
                                                                                             <span class="help-block"></span>
                                                                                         </div>
@@ -1272,7 +1276,7 @@
                                                                                 </div>
                                                                                 <button type="submit" class="btn btn-primary pull-left">Send</button>
                                                                             </form>
-                                                                            <p class="chrono_credits"><a href="http://www.chronoengine.com" target="_blank">Powered by ChronoForms - ChronoEngine.com</a></p>
+                                                                            <p class="chrono_credits"><a href="" target="_blank">Powered by ChronoForms - ChronoEngine.com</a></p>
                                                                         </div>
                                                                     </div>
                                                                     <!-- qx-element-joomla-module -->
@@ -1284,10 +1288,11 @@
                                                             <div class="qx-col-wrap">
                                                                 <div class="qx-element-wrap">
                                                                     <div id="qx-text-5123" class="qx-element qx-element-text  wow fadeIn" data-wow-delay="0.1s">
-                                                                        <h3>Capital Security Bank Limited</h3>
-                                                                        <p>Phone: +682 22505</p>
-                                                                        <p>Email: <a href="/cdn-cgi/l/email-protection#7f161119103f1c1e0f160b1e130c1a1c0a0d160b061d1e1114511c1012"><span class="__cf_email__" data-cfemail="97fef9f1f8d7f4f6e7fee3f6fbe4f2f4e2e5fee3eef5f6f9fcb9f4f8fa">[email&#160;protected]</span></a></p>
-                                                                        <p>PO Box 906, Centrepoint, Avarua<br />Rarotonga, Cook Islands</p>
+        
+                                                                        <h3>Renevault Capital Bank Limited</h3>
+                                                                        <p>Phone: +1 774 290 4159</p>
+                                                                        <p>Email:Email: info@renevaultcapital.com
+                                                                        <p>1738 C Main St <br> valley City, Nevada</p>
                                                                     </div>
                                                                     <!-- qx-element-text -->
                                                                     <!--Google maps script-->
@@ -1531,7 +1536,10 @@
 
 
                     <div class="custom">
-                        <p>Copyright 2021-2022 © Capital Security Bank Limited. All rights reserved.<br />PO Box 906, Centrepoint, Avarua, Rarotonga, Cook Islands<br />Ph: <a href="tel:68222505">+682 22505</a> Fax: +682 22056  Email: <a href="/cdn-cgi/l/email-protection#c4adaaa2ab84a7a5b4adb0a5a8b7a1a7b1b6adb0bda6a5aaafeaa7aba9"><span class="__cf_email__" data-cfemail="d6bfb8b0b996b5b7a6bfa2b7baa5b3b5a3a4bfa2afb4b7b8bdf8b5b9bb">[email&#160;protected]</span></a></p>
+                        <p>Copyright 2021-2022 © Renevault Capital Bank Limited. All rights reserved.<br />1738 C Main St
+                            Valley City, Nevada <br />Ph: <a href="tel:+17742904159">+1 774 290 4159</a>
+                              Email: info@renevaultcapital.com
+                        </p>
                     </div>
 
                 </div>

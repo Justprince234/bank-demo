@@ -106,8 +106,8 @@ class UpdateUser(models.Model):
     """Update user credentials"""
     user = models.OneToOneField(User, related_name='owner', on_delete=models.CASCADE) 
     passport = models.ImageField(upload_to='photos/%Y/%m/%d/')
-    transaction_pin = models.IntegerField(validators=[MinLengthValidator(4)], default=0000) 
-    confirm_transaction_pin = models.IntegerField(validators=[MinLengthValidator(4)], default=0000)
+    transaction_pin = models.IntegerField(default=000) 
+    confirm_transaction_pin = models.IntegerField(default=000)
     date_updated = models.DateTimeField(auto_now_add=True) 
 
     class Meta:

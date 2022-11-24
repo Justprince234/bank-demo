@@ -16,3 +16,11 @@ class History(models.Model):
     amount = models.IntegerField()
     transaction_reference = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
     date = models.DateField()
+
+    class Meta:
+        verbose_name_plural = "Histories"
+
+class Contact(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()

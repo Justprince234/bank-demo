@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from dotenv import load_dotenv
 load_dotenv() 
 
@@ -93,12 +97,6 @@ DATABASES = {
     }
 }
 
-# Cloudinary stuff
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': "dhbq8xygi",
-    'API_KEY': "566134837451328",
-    'API_SECRET': "pr166kz5mEMew7AzzPP3er1ws_0"
-}
 
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 
@@ -155,8 +153,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'photos/')
 MEDIA_URL = '/photos/'
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

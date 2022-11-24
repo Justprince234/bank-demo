@@ -1,4 +1,5 @@
 {% load static %}
+{% load cloudinary %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,31 +30,16 @@
       <div class="collapse navbar-collapse pb-0 justify-content-between" id="navbarSupportedContent">
         <ul class="navbar-nav mt-3">
           <li class="nav-item active">
-              <a class="nav-link text-dark Activity" href="index.html">Activity <span class="sr-only">(current)</span></a>
+              <a class="nav-link text-dark Activity" href="{% url 'core:dashboard' %}">Dashboard <span class="sr-only">(current)</span></a>
           </li>
 
           <li class="nav-item">
-                  <a class="nav-link text-muted" href="#">Expenses</a>
+                  <a class="nav-link text-muted" href="{% url 'core:profile' %}">Update profile</a>
               </li>
-
-              <li class="nav-item">
-                <a class="nav-link text-muted" href="#">Goals</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-muted" href="#">CDs</a>
-            </li>
 
           </ul>
 
           <ul class="navbar-nav navbar-nav-scroll align-items-lg-center">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle text-muted mr-5" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-gift packaged_gift" aria-hidden="true"></i> Refer a friend</a>
-              <div class="dropdown-menu" aria-labelledby="dropdownId">
-                  <a class="dropdown-item" href="#">Action 1</a>
-                  <a class="dropdown-item" href="#">Action 2</a>
-              </div>
-          </li>
 <!-- 
           <li class="nav-item dropdown">
              
@@ -80,69 +66,44 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-        <form class="form-profile shadow-sm px-4 bg-white pb-2">
+        {% for message in messages %}
+        <p style="color: red">{{message}}</p>
+        {% endfor %}
+        <form action="{% url 'core:profile' %}" method="POST" class="form-profile shadow-sm px-4 bg-white pb-2" enctype="multipart/form-data">
+          {% csrf_token %}
          <div class="d-flex align-items-center justify-content-between">
           <div class="mb-5" style="display: flex; align-items: center;">
+            {% if file_url %}
             <div  style="height:5rem; width: 5rem; ">
-              <img src="{% static 'img/upload-image.jpg' %}"  alt="" style="height: 100%; width: 100%; border-radius: 50%;">
+              <img src="{{ file_url }}"  alt="" style="height: 100%; width: 100%; border-radius: 50%;">
             </div>
+            {% else %}
+            <div  style="height:5rem; width: 5rem; ">
+              <img src=""  alt="No image" style="height: 100%; width: 100%; border-radius: 50%;">
+            </div>
+            {% endif %}
            <div class="p-3">
-            <h6 class="mb-0">Princewill Princewill</h6>
-            <p>princewill@gmail.com</p>
+            
            </div>
           </div>
 
-            <div>
-              <i id="formFileLg" type="file" class="fa fa-pencil-square-o fa-2x amount_in_dollars" aria-hidden="true"></i>
-            </div>
+          <div>
+            <input id="formFileLg" type="file" class="fa fa-pencil-square-o fa-2x amount_in_dollars" aria-hidden="true" name="passport" accept=".jpeg, .jpg"> 
+          </div>
          </div>
-
-          <div class="form-row row mb-3">
-            <div class="col-md-6">
-              <label for="firstname">First name</label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="">
-            </div>
-            <div class="col-md-6">
-              <label for="lastname">Last name</label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="">
-            </div>
-          </div>
-
-          <div class="form-row row mb-3">
-            <div class="col-md-6">
-              <label for="inputEmail4">Email</label>
-              <input type="email" class="form-control border border-1 bg-white" placeholder="">
-            </div>
-            <div class="col-md-6">
-              <label for="inputEmail4">Date of Birth </label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="dd/mm/yyyy">
-            </div>
-          </div>
-
-          <div class="form-row row mb-3">
-            <div class="col-md-6">
-              <label for="inputEmail4">Next of Kin</label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="">
-            </div>
-            <div class="col-md-6">
-              <label for="tel">Phone Number of next of Kin </label>
-              <input type="tel" class="form-control border border-1 bg-white" placeholder="">
-            </div>
-          </div>
-
           <div class="form-row row mb-3">
             <div class="col-md-6">
               <label for="text">Transaction Pin</label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="">
+              <input name="transaction_pin" type="text" class="form-control border border-1 bg-white" placeholder="0000">
             </div>
             <div class="col-md-6">
               <label for="text">Confirm Transaction Pin </label>
-              <input type="text" class="form-control border border-1 bg-white" placeholder="">
+              <input name="confirm_transaction_pin" type="text" class="form-control border border-1 bg-white" placeholder="0000">
             </div>
           </div>
 
           <div class="mt-6 text-center">
-                <button type="submit" class="btn text-white bg_amount_in_dollars mb-2">Updata Form</button>
+                <button type="submit" class="btn text-white bg_amount_in_dollars mb-2">Update profile</button>
           </div>
         </form>
       </div>
