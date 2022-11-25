@@ -65,7 +65,7 @@
           
           <div class="col-lg-6.5 first-border">
               <h1 class="amount_in_dollars">${% for update in updates %}{{update.available_balance}}{% endfor %}</h1>
-              <p class="text_color pr-2">${% for update in updates %}{{update.available_balance}}{% endfor %} available balance - ${% for update in updates %}{{update.user.scheduled_balance}}{% endfor %}in scheduled activities - ${% for update in updates %}{{update.user.expenses_balance}}{% endfor %} in Expenses  <br> in Goal</p>
+              <p class="text_color pr-2">${% for update in updates %}{{update.available_balance}}{% endfor %} available balance - ${% for update in updates %}{{update.user.scheduled_balance}}{% endfor %} in scheduled activities - ${% for update in updates %}{{update.user.expenses_balance}}{% endfor %} in Expenses  <br> in Goal</p>
           </div>
     
           <div class="col-lg-3.5 second-border px-1">
