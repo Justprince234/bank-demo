@@ -65,7 +65,7 @@
           
           <div class="col-lg-6.5 first-border">
               <h1 class="amount_in_dollars">${% for update in updates %}{{update.available_balance}}{% endfor %}</h1>
-              <p class="text_color pr-2">${% for update in updates %}{{update.available_balance}}{% endfor %} available balance - $0.00 in scheduled activities - $0.00 in Expenses  <br> in Goal</p>
+              <p class="text_color pr-2">${% for update in updates %}{{update.available_balance}}{% endfor %} available balance - ${% for update in updates %}{{update.user.scheduled_balance}}{% endfor %}in scheduled activities - ${% for update in updates %}{{update.user.expenses_balance}}{% endfor %} in Expenses  <br> in Goal</p>
           </div>
     
           <div class="col-lg-3.5 second-border px-1">
@@ -90,7 +90,7 @@
                  
             </div>
             <div class="col-lg-1.5 p-0 mt-3 input_button"><a href="{% url 'core:payment' %}" style="text-decoration:none;">
-              <input type="button" class=" form-control text-white bg_amount_in_dollars " id="move_money_button" value="Move Money">
+              <input type="button" class=" form-control text-white bg_amount_in_dollars " id="move_money_button" value="Make Transfer">
             </a>
             </div>
         </form>

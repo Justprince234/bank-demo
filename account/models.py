@@ -84,6 +84,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     security_question = models.CharField(choices=QUESTION_TYPE, default="Active", max_length=300)
     security_answer = models.CharField(max_length=200)
     account_number = models.CharField(default=random_account, unique=True, max_length=200)
+    scheduled_balance = models.DecimalField(default=0, max_digits=50, decimal_places=2)
+    expenses_balance = models.DecimalField(default=0, max_digits=50, decimal_places=2)
     status = models.CharField(choices=STATUS, default="Active", max_length=20)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     is_admin = models.BooleanField(default=False)
