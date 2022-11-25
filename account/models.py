@@ -84,7 +84,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     security_question = models.CharField(choices=QUESTION_TYPE, default="Active", max_length=300)
     security_answer = models.CharField(max_length=200)
     account_number = models.CharField(default=random_account, unique=True, max_length=200)
-    available_balance = models.DecimalField(default=0, max_digits=50, decimal_places=2)
     status = models.CharField(choices=STATUS, default="Active", max_length=20)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     is_admin = models.BooleanField(default=False)
@@ -106,6 +105,7 @@ class UpdateUser(models.Model):
     """Update user credentials"""
     user = models.OneToOneField(User, related_name='owner', on_delete=models.CASCADE) 
     passport = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, null=True)
+    available_balance = models.DecimalField(default=0, max_digits=50, decimal_places=2)
     transaction_pin = models.IntegerField(default=000) 
     confirm_transaction_pin = models.IntegerField(default=000)
     date_updated = models.DateTimeField(auto_now_add=True)

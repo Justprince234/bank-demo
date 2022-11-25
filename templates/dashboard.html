@@ -64,8 +64,8 @@
         <div class="d-flex flex-wrap third-border">
           
           <div class="col-lg-6.5 first-border">
-              <h1 class="amount_in_dollars">${% for update in updates %}{{update.user.available_balance}}{% endfor %}</h1>
-              <p class="text_color pr-2">${% for update in updates %}{{update.user.available_balance}}{% endfor %} available balance - $0.00 in scheduled activities - $0.00 in Expenses  <br> in Goal</p>
+              <h1 class="amount_in_dollars">${% for update in updates %}{{update.available_balance}}{% endfor %}</h1>
+              <p class="text_color pr-2">${% for update in updates %}{{update.available_balance}}{% endfor %} available balance - $0.00 in scheduled activities - $0.00 in Expenses  <br> in Goal</p>
           </div>
     
           <div class="col-lg-3.5 second-border px-1">

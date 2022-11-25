@@ -6,7 +6,7 @@ from .models import User, UpdateUser
 # Register your models here.
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('status','email', 'first_name', 'middle_name', 'surname', 'date_of_birth', 'phone', 'account_number','available_balance', 'password', 'last_login')}),
+        (None, {'fields': ('status','email', 'first_name', 'middle_name', 'surname', 'date_of_birth', 'phone', 'account_number', 'password', 'last_login')}),
         ('Permissions', {'fields': (
             'is_active',
             'is_staff',
@@ -36,7 +36,7 @@ admin.site.register(User, UserAdmin)
 
 class UpdateUserAdmin(admin.ModelAdmin):
 
-    list_display = ('id', 'user') 
+    list_display = ('id', 'user', 'available_balance')  
     list_display_links = ('id', 'user')
     search_fields = ('user',)
     list_per_page = 25

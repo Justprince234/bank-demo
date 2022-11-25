@@ -13,8 +13,6 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-import cloudinary
-
 
 # Create your views here.
 def home(request):
@@ -115,6 +113,8 @@ def international(request):
     user =request.user
     updates = UpdateUser.objects.get(user=user).user.status
     current_pin = UpdateUser.objects.get(user=user).transaction_pin
+    update_user = UpdateUser.objects.filter(user=user)
+    available_balance =UpdateUser.objects.get(user=user).available_balance
     if request.method == 'POST':
         to_fullname= request.POST['to_fullname']
         bank_name = request.POST['bank_name']
@@ -128,6 +128,8 @@ def international(request):
         transaction_pin = request.POST['transaction_pin']
         if updates == 'Active':
             if int(current_pin) == int(transaction_pin):
+                available_balance -= int(transfer_amount)
+                update_user.update(available_balance=available_balance)
                 international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
                 international.owner = request.user
                 international.save()
@@ -146,6 +148,8 @@ def local(request):
     user =request.user
     updates = UpdateUser.objects.get(user=user).user.status
     current_pin = UpdateUser.objects.get(user=user).transaction_pin
+    update_user = UpdateUser.objects.filter(user=user)
+    available_balance =UpdateUser.objects.get(user=user).available_balance
     if request.method == 'POST':
         to_fullname= request.POST['to_fullname']
         bank_name = request.POST['bank_name']
@@ -155,6 +159,8 @@ def local(request):
         transaction_pin = request.POST['transaction_pin']
         if updates == 'Active':
             if int(current_pin) == int(transaction_pin):
+                available_balance -= int(transfer_amount)
+                update_user.update(available_balance=available_balance)
                 local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
                 local.owner = request.user
                 local.save()
