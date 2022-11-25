@@ -6,7 +6,7 @@ from .models import User, UpdateUser
 # Register your models here.
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'first_name', 'middle_name', 'surname', 'date_of_birth', 'phone', 'account_number','available_balance', 'password', 'last_login')}),
+        (None, {'fields': ('status','email', 'first_name', 'middle_name', 'surname', 'date_of_birth', 'phone', 'account_number','available_balance', 'password', 'last_login')}),
         ('Permissions', {'fields': (
             'is_active',
             'is_staff',

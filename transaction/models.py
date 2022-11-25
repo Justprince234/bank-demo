@@ -2,20 +2,8 @@ from django.db import models
 from  django.conf import settings
 from django.core.validators import MinLengthValidator
 
-
-import random
 import uuid
 
-TRANSACTION_TYPE = (
-    ('Credit', 'Credit'),
-    ('Debit', 'Debit'),
-)
-
-TRANSACTION_STATUS = (
-    ('Pending','Pending'),
-    ('Successful','Successful'),
-    ('Declined', 'Declined')
-)
 
 # Create your models here.
 class InternationalTransfer(models.Model):
@@ -32,7 +20,6 @@ class InternationalTransfer(models.Model):
     transfer_description = models.CharField(max_length=100, null=True, blank=True)
     transfer_date = models.DateTimeField(auto_now_add=True)
     transaction_id = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
-    status = models.CharField(choices=TRANSACTION_STATUS, default='Successful', max_length=20)
     owner= models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sender', on_delete=models.CASCADE)
 
     class Meta:
@@ -51,7 +38,6 @@ class LocalTransfer(models.Model):
     transfer_description = models.CharField(max_length=100, null=True, blank=True)
     transfer_date = models.DateTimeField(auto_now_add=True)
     transaction_id = models.UUIDField(unique=True, editable=False, default=uuid.uuid4)
-    status = models.CharField(choices=TRANSACTION_STATUS, default='Successful', max_length=20)
     owner= models.ForeignKey(settings.AUTH_USER_MODEL, related_name='senders', on_delete=models.CASCADE)
 
     class Meta:

@@ -112,9 +112,10 @@ def dashboard(request):
 
 @login_required
 def international(request):
-    updates = UpdateUser.objects.filter(user=request.user)
+    user =request.user
+    updates = UpdateUser.objects.get(user=user).user.status
+    current_pin = UpdateUser.objects.get(user=user).transaction_pin
     if request.method == 'POST':
-        updated_pin = updates.transaction_pin
         to_fullname= request.POST['to_fullname']
         bank_name = request.POST['bank_name']
         bank_country = request.POST['bank_country']
@@ -125,11 +126,16 @@ def international(request):
         currency_type = request.POST['currency_type']
         transfer_description = request.POST['transfer_description']
         transaction_pin = request.POST['transaction_pin']
-        if updated_pin == transaction_pin:
-            international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
-            international.owner = request.user
-            international.save()
-            return redirect('core:success')
+        if updates == 'Active':
+            if int(current_pin) == int(transaction_pin):
+                international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
+                international.owner = request.user
+                international.save()
+                messages.success(request, 'Sent!')
+                return redirect('core:payment')
+            messages.error(request, 'Invalid transaction pin!')
+            return redirect('core:payment')
+        messages.error(request, 'Account not active, Please contact support. Thanks!') 
         messages.error(request, 'Invalid transaction')
         return redirect('core:payment')
 
@@ -137,21 +143,26 @@ def international(request):
 
 @login_required
 def local(request):
-    updates = UpdateUser.objects.get(user=request.user)
+    user =request.user
+    updates = UpdateUser.objects.get(user=user).user.status
+    current_pin = UpdateUser.objects.get(user=user).transaction_pin
     if request.method == 'POST':
-        updated_pin = updates.transaction_pin
         to_fullname= request.POST['to_fullname']
         bank_name = request.POST['bank_name']
         to_account = request.POST['to_account']
         transfer_amount = request.POST['transfer_amount']
         transfer_description = request.POST['transfer_description']
         transaction_pin = request.POST['transaction_pin']
-        if updated_pin == transaction_pin:
-            local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
-            local.owner = request.user
-            local.save()
-            return redirect('core:success')
-        messages.error(request, 'Invalid transaction')
+        if updates == 'Active':
+            if int(current_pin) == int(transaction_pin):
+                local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
+                local.owner = request.user
+                local.save()
+                messages.success(request, 'Sent!')
+                return redirect('core:payment')
+            messages.error(request, 'Invalid transaction pin!')
+            return redirect('core:payment')
+        messages.error(request, 'Account not active, Please contact support. Thanks!') 
         return redirect('core:payment')
 
     return redirect('core:success')
