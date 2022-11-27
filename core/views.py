@@ -201,7 +201,6 @@ def profile(request):
             return render(request, template_name, {'file_url': file_url})
         messages.info(request, 'Transaction pin does not match')
         return redirect('core:profile')
-
     return render(request, template_name, {'updates': updates})
 
 @login_required

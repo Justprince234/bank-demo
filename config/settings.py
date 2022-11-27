@@ -31,8 +31,9 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://www.renevaultcapital.com', 'https://127.0.0.1:8000/'] 
 
 
 # Application definition

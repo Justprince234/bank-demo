@@ -140,7 +140,7 @@ strong {
     width: 190px;
     font-size: 12px;
     background: #fff;
-    background-image: url(../images/search.png);
+    background-image: url('');
     background-position: center right;
     background-repeat: no-repeat;
 }
@@ -355,7 +355,7 @@ a.csbbtn-sm {
 }
 
 #navigation .dropdown-menu a:before {
-    content: url('../images/navigation-li.png?asd');
+    content: url();
     margin-right: 7px;
     vertical-align: -5px;
 }
@@ -482,7 +482,7 @@ a.csbbtn-sm {
 }
 
 #informational .moduletable.latest-news ul li:before {
-    content: url('../images/latest-news-li.png');
+    content: url();
     float: left;
     margin-right: 10px;
 }
