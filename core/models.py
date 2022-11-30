@@ -1,5 +1,6 @@
 from django.db import models
 from  account.models import User
+from django.urls import reverse
 
 import uuid
 
@@ -24,3 +25,12 @@ class Contact(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
     message = models.TextField()
+
+class Blog(models.Model):
+    title = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True)
+    date = models.DateField()
+    message = models.TextField()
+
+    def get_absolute_url(self):
+        return reverse('core:blog', args=[self.slug])

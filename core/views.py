@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from account.models import User, UpdateUser
-from .models import History, Contact
+from .models import History, Contact, Blog
 from transaction.models import InternationalTransfer, LocalTransfer
 from django.contrib.auth import get_user_model
 from django.core.files.storage import FileSystemStorage
@@ -18,7 +18,8 @@ from django.utils.encoding import force_bytes, force_str
 def home(request):
     """Displays the index page."""
     template_name = 'index.html'
-    return render(request, template_name)
+    blog = Blog.objects.all()
+    return render(request, template_name, {'blogs': blog})
 
 def registration(request):
     """Displays the account application page."""
@@ -212,6 +213,7 @@ def success(request):
 def contact_us(request):
     """Displays the account login page."""
     template_name = 'contact-us.html'
+    blog = Blog.objects.all()
     if request.method == 'POST':
         full_name= request.POST['full_name']
         email = request.POST['email']
@@ -219,7 +221,7 @@ def contact_us(request):
         contact = Contact(full_name=full_name, email=email, message=message)
         contact.save()
         messages.info(request, 'Sent! One of our agent will contact you soon')
-    return render(request, template_name)
+    return render(request, template_name, {'blogs': blog})
 
 def aboutUs(request):
     """Displays the account login page."""
@@ -235,3 +237,8 @@ def helpful_forms(request):
     """Displays the helpful forms page."""
     template_name = 'helpful-forms.html'
     return render(request, template_name)
+
+def blog(request, slug):
+    """Displays the blog page."""
+    template_name = 'blog.html'
+    return render(request, template_name, {'blogs': get_object_or_404(Blog, slug=slug)})

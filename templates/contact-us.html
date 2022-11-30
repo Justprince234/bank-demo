@@ -1369,91 +1369,16 @@
                                 <div class="moduletable latest-news">
                                     <h3>Latest News</h3>
                                     <ul class="category-module latest-news mod-list">
+                                        {% for blog in blogs %}
                                         <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/135-market-highlights-24-september-2022">Market Highlights - 24 September 2022</a>
-
-
-
-
-
-
-
+                                            <a class="mod-articles-category-title "
+                                                href="{{blog.get_absolute_url}}">Market Highlights - {{blog.title}}</a>
                                         </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/134-trading-highlights-10-september-2022">Trading Highlights - 10 September 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/133-trading-highlights-27-august-2022">Trading Highlights - 27 August 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/132-trading-highlights-20-august-2022">Trading Highlights - 20 August 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/131-trading-highlights-13-august-2022">Trading Highlights - 13 August 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/129-trading-highlights-30-july-2022">Trading Highlights - 30 July 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/128-trading-highlights-23-july-2022">Trading Highlights - 23 July 2022</a>
-
-
-
-
-
-
-
-                                        </li>
-                                        <li>
-                                            <a class="mod-articles-category-title " href="/latest-news/127-trading-highlights-16-july-2022">Trading Highlights - 16 July 2022</a>
-
-
-
-
-
-
-
-                                        </li>
+                                        {% endfor %}
                                     </ul>
                                 </div>
 
                                 <br /><br />
-                                <a href="/latest-news" class="btn csbbtn csbbtn-sm">SEE ALL</a>
                             </div>
                             <div class="span4">
 
@@ -1466,14 +1391,14 @@
                         <div class="nav-wrapped  quick-links">
                             <div class="title">Quick Links</div>
                             <ul class="nav" role="navigation">
-                                <li class="item-129"><a href="/about-us/our-team">Our Team</a></li>
-                                <li class="item-130"><a href="https://www.capitalsecuritybank.com/rates/Fx-Rates.pdf" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'); return false;">Exchange Rates</a></li>
+                                <li class="item-129"><a href="">Our Team</a></li>
+                                <li class="item-130"><a href="" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'); return false;">Exchange Rates</a></li>
                                 <li
-                                    class="item-131"><a href="https://www.capitalsecuritybank.com/rates/Deposit-Rates.pdf" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'); return false;">Interest Rates</a></li>
+                                    class="item-131"><a href="" onclick="window.open(this.href, 'targetWindow', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,'); return false;">Interest Rates</a></li>
                                     <li
-                                        class="item-132"><a href="/online-security">Online Security</a></li>
-                                        <li class="item-135"><a href="/about-us/client-protection">Client Protection</a></li>
-                                        <li class="item-204"><a href="/mailing-list">Mailing List</a></li>
+                                        class="item-132"><a href="">Online Security</a></li>
+                                        <li class="item-135"><a href="">Client Protection</a></li>
+                                        <li class="item-204"><a href="">Mailing List</a></li>
                             </ul>
                         </div>
                     </div>
@@ -1501,18 +1426,18 @@
 
                                 <ul id="rssocial-ul-109" class="rssocial-icons rssocial-icons-bg">
                                     <li>
-                                        <a id="rssocial-facebook-icon" class="rssocial-link push" target="_blank" href="https://www.facebook.com/CSBBankCookIslands/">
+                                        <a id="rssocial-facebook-icon" class="rssocial-link push" target="_blank" href="">
 			<span class="rssocial-icon rssocial-icon-facebook"></span>
 		</a>
                                     </li>
                                     <li>
-                                        <a id="rssocial-twitter-icon" class="rssocial-link push" target="_blank" href="https://twitter.com/CapitalSecurit6">
+                                        <a id="rssocial-twitter-icon" class="rssocial-link push" target="_blank" href="">
 			<span class="rssocial-icon rssocial-icon-twitter"></span>
 		</a>
 
                                     </li>
                                     <li>
-                                        <a id="rssocial-linkedin-icon" class="rssocial-link push" target="_blank" href="https://www.linkedin.com/company/capital-security-bank-limited/">
+                                        <a id="rssocial-linkedin-icon" class="rssocial-link push" target="_blank" href="">
 			<span class="rssocial-icon rssocial-icon-linkedin"></span>
 		</a>
 
@@ -1525,8 +1450,8 @@
                         <div class="span5">
                             <div class="nav-wrapped ">
                                 <ul class="nav" role="navigation">
-                                    <li class="item-125 active"><a href="/contact-us">Contact Us</a></li>
-                                    <li class="item-124"><a href="/latest-news">Latest News</a></li>
+                                    <li class="item-125 active"><a href="{% url 'core:contact-us' %}">Contact Us</a></li>
+                                    <li class="item-124"><a href="">Latest News</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -1564,33 +1489,6 @@
         });
     </script>
 
-    <!-- Begin of Chaport Live Chat code -->
-    <script type="text/javascript">
-        (function(w, d, v3) {
-            w.chaportConfig = {
-                appId: '61e0a0861ff3a6313621db9a'
-            };
-
-            if (w.chaport) return;
-            v3 = w.chaport = {};
-            v3._q = [];
-            v3._l = {};
-            v3.q = function() {
-                v3._q.push(arguments)
-            };
-            v3.on = function(e, fn) {
-                if (!v3._l[e]) v3._l[e] = [];
-                v3._l[e].push(fn)
-            };
-            var s = d.createElement('script');
-            s.type = 'text/javascript';
-            s.async = true;
-            s.src = 'https://app.chaport.com/javascripts/insert.js';
-            var ss = d.getElementsByTagName('script')[0];
-            ss.parentNode.insertBefore(s, ss)
-        })(window, document);
-    </script>
-    <!-- End of Chaport Live Chat code -->
 </body>
 <!--LinkedIn Tracking Code addedd on 06/11/2020-->
 <script type="text/javascript">

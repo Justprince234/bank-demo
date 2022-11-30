@@ -19,4 +19,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('success/', views.success, name='success'),
     path('about-us/', views.aboutUs, name='about-us'),
+    path('blog/<slug:slug>/', views.blog, name='blog')
 ]
