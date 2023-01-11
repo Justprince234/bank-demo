@@ -144,6 +144,7 @@ def international(request):
             messages.error(request, 'Account not active, Please contact support. Thanks!') 
             messages.error(request, 'Invalid transaction')
             return redirect('core:payment')
+        return redirect('core:payment')
     except (ValueError, TypeError, DataError) as e:
         messages.error(request, e)
         return redirect('core:payment')
@@ -177,6 +178,7 @@ def local(request):
                 return redirect('core:payment')
             messages.error(request, 'Account not active, Please contact support. Thanks!') 
             return redirect('core:payment')
+        return redirect('core:payment')
     except (ValueError, TypeError, DataError) as e:
         messages.error(request, e)
         return redirect('core:payment')
