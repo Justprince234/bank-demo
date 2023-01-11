@@ -5,6 +5,8 @@ from transaction.models import InternationalTransfer, LocalTransfer
 from django.contrib.auth import get_user_model
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import DataError
 from django.contrib.auth.models import auth
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
@@ -142,7 +144,7 @@ def international(request):
             messages.error(request, 'Account not active, Please contact support. Thanks!') 
             messages.error(request, 'Invalid transaction')
             return redirect('core:payment')
-    except (ValueError, TypeError) as e:
+    except (ValueError, TypeError, DataError) as e:
         messages.error(request, e)
         return redirect('core:payment')
 
@@ -175,7 +177,7 @@ def local(request):
                 return redirect('core:payment')
             messages.error(request, 'Account not active, Please contact support. Thanks!') 
             return redirect('core:payment')
-    except (ValueError, TypeError) as e:
+    except (ValueError, TypeError, DataError) as e:
         messages.error(request, e)
         return redirect('core:payment')
 

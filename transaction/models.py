@@ -11,7 +11,7 @@ class InternationalTransfer(models.Model):
     to_fullname = models.CharField(max_length=200)
     bank_name = models.CharField(max_length=100)
     bank_country = models.CharField(max_length=100)
-    to_account = models.IntegerField()
+    to_account = models.BigIntegerField()
     routing_number = models.CharField(max_length=50)
     iban_number = models.IntegerField()
     transfer_amount = models.DecimalField(default=0, max_digits=12, decimal_places=2)
@@ -32,7 +32,7 @@ class LocalTransfer(models.Model):
     """User Transfer table"""
     to_fullname = models.CharField(max_length=200)
     bank_name = models.CharField(max_length=100)
-    to_account = models.IntegerField()
+    to_account = models.BigIntegerField()
     transfer_amount = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     transaction_pin = models.IntegerField(validators=[MinLengthValidator(4)])
     transfer_description = models.CharField(max_length=100, null=True, blank=True)
