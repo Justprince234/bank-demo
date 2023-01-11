@@ -116,33 +116,36 @@ def international(request):
     current_pin = UpdateUser.objects.get(user=user).transaction_pin
     update_user = UpdateUser.objects.filter(user=user)
     available_balance =UpdateUser.objects.get(user=user).available_balance
-    if request.method == 'POST':
-        to_fullname= request.POST['to_fullname']
-        bank_name = request.POST['bank_name']
-        bank_country = request.POST['bank_country']
-        to_account = request.POST['to_account']
-        routing_number = request.POST['routing_number']
-        iban_number = request.POST['iban_number']
-        transfer_amount = request.POST['transfer_amount']
-        currency_type = request.POST['currency_type']
-        transfer_description = request.POST['transfer_description']
-        transaction_pin = request.POST['transaction_pin']
-        if updates == 'Active':
-            if int(current_pin) == int(transaction_pin):
-                available_balance -= int(transfer_amount)
-                update_user.update(available_balance=available_balance)
-                international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
-                international.owner = request.user
-                international.save()
-                messages.success(request, 'Sent!')
+    try:
+        if request.method == 'POST':
+            to_fullname= request.POST['to_fullname']
+            bank_name = request.POST['bank_name']
+            bank_country = request.POST['bank_country']
+            to_account = request.POST['to_account']
+            routing_number = request.POST['routing_number']
+            iban_number = request.POST['iban_number']
+            transfer_amount = request.POST['transfer_amount']
+            currency_type = request.POST['currency_type']
+            transfer_description = request.POST['transfer_description']
+            transaction_pin = request.POST['transaction_pin']
+            if updates == 'Active':
+                if int(current_pin) == int(transaction_pin):
+                    available_balance -= int(transfer_amount)
+                    update_user.update(available_balance=available_balance)
+                    international = InternationalTransfer(to_fullname=to_fullname, bank_name=bank_name, bank_country=bank_country, to_account=to_account, routing_number=routing_number, iban_number=iban_number, transfer_amount=transfer_amount, currency_type=currency_type, transfer_description=transfer_description, transaction_pin=transaction_pin)
+                    international.owner = request.user
+                    international.save()
+                    messages.success(request, 'Sent!')
+                    return redirect('core:payment')
+                messages.error(request, 'Invalid transaction pin!')
                 return redirect('core:payment')
-            messages.error(request, 'Invalid transaction pin!')
+            messages.error(request, 'Account not active, Please contact support. Thanks!') 
+            messages.error(request, 'Invalid transaction')
             return redirect('core:payment')
-        messages.error(request, 'Account not active, Please contact support. Thanks!') 
-        messages.error(request, 'Invalid transaction')
+    except (ValueError, TypeError) as e:
+        messages.error(request, e)
         return redirect('core:payment')
 
-    return redirect('core:success')
 
 @login_required
 def local(request):
@@ -151,28 +154,30 @@ def local(request):
     current_pin = UpdateUser.objects.get(user=user).transaction_pin
     update_user = UpdateUser.objects.filter(user=user)
     available_balance =UpdateUser.objects.get(user=user).available_balance
-    if request.method == 'POST':
-        to_fullname= request.POST['to_fullname']
-        bank_name = request.POST['bank_name']
-        to_account = request.POST['to_account']
-        transfer_amount = request.POST['transfer_amount']
-        transfer_description = request.POST['transfer_description']
-        transaction_pin = request.POST['transaction_pin']
-        if updates == 'Active':
-            if int(current_pin) == int(transaction_pin):
-                available_balance -= int(transfer_amount)
-                update_user.update(available_balance=available_balance)
-                local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
-                local.owner = request.user
-                local.save()
-                messages.success(request, 'Sent!')
+    try:
+        if request.method == 'POST':
+            to_fullname= request.POST['to_fullname']
+            bank_name = request.POST['bank_name']
+            to_account = request.POST['to_account']
+            transfer_amount = request.POST['transfer_amount']
+            transfer_description = request.POST['transfer_description']
+            transaction_pin = request.POST['transaction_pin']
+            if updates == 'Active':
+                if int(current_pin) == int(transaction_pin):
+                    available_balance -= int(transfer_amount)
+                    update_user.update(available_balance=available_balance)
+                    local = LocalTransfer(to_fullname=to_fullname, bank_name=bank_name, to_account=to_account, transfer_amount=transfer_amount, transfer_description=transfer_description, transaction_pin=transaction_pin)
+                    local.owner = request.user
+                    local.save()
+                    messages.success(request, 'Sent!')
+                    return redirect('core:payment')
+                messages.error(request, 'Invalid transaction pin!')
                 return redirect('core:payment')
-            messages.error(request, 'Invalid transaction pin!')
+            messages.error(request, 'Account not active, Please contact support. Thanks!') 
             return redirect('core:payment')
-        messages.error(request, 'Account not active, Please contact support. Thanks!') 
+    except (ValueError, TypeError) as e:
+        messages.error(request, e)
         return redirect('core:payment')
-
-    return redirect('core:success')
 
 @login_required
 def payment(request):
@@ -199,6 +204,7 @@ def profile(request):
             updated = UpdateUser(passport=file, transaction_pin=transaction_pin, confirm_transaction_pin=confirm_transaction_pin)
             updated.user = request.user
             updated.save()
+            messages.info(request, 'Congratulations, Data updated!')
             return render(request, template_name, {'file_url': file_url})
         messages.info(request, 'Transaction pin does not match')
         return redirect('core:profile')

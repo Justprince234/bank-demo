@@ -22,11 +22,15 @@
             <li class="nav-item active">
                 <a class="nav-link text-dark Activity" href="{% url 'core:dashboard' %}">Dashboard <span class="sr-only">(current)</span></a>
             </li>
-
+            {% for updated in updates %}
             <li class="nav-item">
-                    <a class="nav-link text-muted" href="{% url 'core:profile' %}">Update Profile</a>
-                </li>
-
+              <a class="nav-link text-muted" href="#"></a>
+          </li>
+            {% empty %}
+            <li class="nav-item">
+              <a class="nav-link text-muted" href="{% url 'core:profile' %}">Update Profile</a>
+            </li>
+            {% endfor %}
                 <li class="nav-item">
                   <a class="nav-link text-muted" href="#"></a>
               </li>
