@@ -22,7 +22,7 @@
     <h5 class="text-center">Welcome to Renevault Capital Bank - Online Banking Service | Secured Online System</h5>
   </header>
   <main>
-    <marquee class="bg-primary text-white" behavior="" direction="right">Friday, November 20, 2022  6:06:30 AM</marquee>
+    <marquee class="bg-primary text-white" behavior="" direction="right"><span id='date-time'></span></marquee>
     <section class="row mx-0">
       <div class="col-12 col-md-2">
         <div class="row pr-2">
@@ -54,43 +54,7 @@
               <div class="col-4 col-md-12 p-2 ">
 
                 <!-- Button trigger modal -->
-                <button type="button" class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1"
-                  data-toggle="modal" data-target="#exampleModalCenter">
-                  Change Password
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header text-center">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Password</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <label for="">Old Password</label>
-                        <input type="text" class="form-control" placeholder="" aria-label="Username"
-                          aria-describedby="basic-addon1">
-
-                        <label for="">New Password</label>
-                        <input type="text" class="form-control" placeholder="" aria-label="Username"
-                          aria-describedby="basic-addon1">
-
-                        <label for="">Confirm Password</label>
-                        <input type="text" class="form-control" placeholder="" aria-label="Username"
-                          aria-describedby="basic-addon1">
-
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="{% url 'core:profile' %}">Update Profile</a>
               </div>
 
               <div class="col-4 col-md-12 p-2 ">
@@ -235,6 +199,10 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>
+    var dt = new Date();
+    document.getElementById('date-time').innerHTML=dt;
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>
