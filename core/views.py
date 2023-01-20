@@ -34,6 +34,7 @@ def registration(request):
         email = request.POST['email']
         date_of_birth = request.POST['date_of_birth']
         phone = request.POST['phone']
+        address = request.POST['address']
         gender = request.POST.get('gender', 'None')
         security_question = request.POST.get('security_question')
         security_answer = request.POST.get("security_answer", "None")
@@ -45,7 +46,7 @@ def registration(request):
         elif User.objects.filter(username=username).exists():
             messages.info(request, 'user already exist.')
             return redirect('core:registration')  
-        user = User.objects.create_user(first_name=first_name, middle_name=middle_name, surname=surname, username=username,date_of_birth=date_of_birth, email=email, phone=phone, gender=gender, security_question=security_question, security_answer=security_answer, password=password)
+        user = User.objects.create_user(first_name=first_name, middle_name=middle_name, surname=surname, username=username,date_of_birth=date_of_birth, email=email, phone=phone, address=address, gender=gender, security_question=security_question, security_answer=security_answer, password=password)
         user.is_active = False  
         user.save()
         current_site = get_current_site(request)
@@ -104,11 +105,20 @@ def activate(request, uidb64, token):
 
 @login_required
 def dashboard(request):
-    template_name = "dashboard.html"
+    template_name = "dash.html"
     user = request.user
     updates = UpdateUser.objects.filter(user=user)
     histories = History.objects.filter(user=user).order_by('-date')
     context = {'updates': updates, 'histories': histories} 
+    return render(request, template_name, context)
+
+@login_required
+def history(request):
+    template_name = "TransactionHistory.html"
+    user = request.user
+    updates = UpdateUser.objects.filter(user=user)
+    histories = History.objects.filter(user=user).order_by('-date')
+    context = {'histories': histories, 'updates': updates} 
     return render(request, template_name, context)
 
 @login_required
@@ -213,6 +223,12 @@ def profile(request):
         messages.info(request, 'Transaction pin does not match')
         return redirect('core:profile')
     return render(request, template_name, {'updates': updates})
+
+@login_required
+def change_password(request):
+    """change password."""
+    
+    return render(request)
 
 @login_required
 def success(request):

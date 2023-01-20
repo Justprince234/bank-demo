@@ -81,6 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_of_birth = models.DateField(default=return_date_time)
     gender = models.CharField(choices=SEX,default="G", max_length=10)
     phone = models.CharField(max_length=100)
+    address = models.CharField(max_length=150, default="")
     security_question = models.CharField(choices=QUESTION_TYPE, default="Active", max_length=300)
     security_answer = models.CharField(max_length=200)
     account_number = models.CharField(default=random_account, unique=True, max_length=200)
