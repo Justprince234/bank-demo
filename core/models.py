@@ -12,6 +12,7 @@ TRANSACTION_TYPE = (
 
 class History(models.Model):
     user =  models.ForeignKey(User, related_name='history', on_delete=models.CASCADE) 
+    sender_name = models.CharField(max_length=100, default="")
     account_number = models.CharField(max_length=100)
     description = models.CharField(max_length=100, default="")
     receiver_name = models.CharField(max_length=100, default="")
