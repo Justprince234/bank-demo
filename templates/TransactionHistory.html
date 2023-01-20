@@ -54,7 +54,7 @@
               <div class="col-4 col-md-12 p-2 ">
               {% for updated in updates %}
               <!-- Button trigger modal -->
-              <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="">Profile Updated</a>
+              <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="{% url 'core:updated_profile' %}">Profile Updated</a>
               {% empty %}
               <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="{% url 'core:profile' %}">Update Profile</a>
               {% endfor %}

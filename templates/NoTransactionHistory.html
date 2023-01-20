@@ -26,7 +26,7 @@
     <h5 class="text-center">Welcome to Renevault Capital Bank - Online Banking Service | Secured Online System</h5>
   </header>
   <main>
-    <marquee class="bg-primary text-white" behavior="" direction="right">Friday, November 20, 2022  6:06:30 AM</marquee>
+    <marquee class="bg-primary text-white" behavior="" direction="right"><span id='date-time'></span></marquee>
     <section class="row mx-0">
       <div class="col-12 col-md-2">
         <div class="row pr-2">
@@ -56,12 +56,6 @@
               </div>
 
               <div class="col-4 col-md-12 p-2 ">
-
-                <!-- Button trigger modal -->
-                <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="{% url 'core:profile' %}">Update Profile</a>
-              </div>
-
-              <div class="col-4 col-md-12 p-2 ">
                 <!-- Button trigger modal -->
                 <a class="transaction-btns w-100 d-block bg-primary border-0 rounded text-white m-2 text-center p-1" href="{% url 'core:logout' %}" id="dropdownId" aria-expanded="false"> Logout</a>
 
@@ -81,7 +75,7 @@
 
       <div class="col-md-8 border border-bottom-0 border-top-0">
         <div class="bg-primary d-flex align-items-center justify-content-center rounded"
-          style="background-position: left; background-image: linear-gradient(to right, rgb(158, 179, 236), rgba(130, 150, 235, 0) ), url(/images/online-banking.jfif); background-repeat: no-repeat;">
+          style="background-position: left; background-image: linear-gradient(to right, rgb(158, 179, 236), rgba(130, 150, 235, 0) ), url(/static/images/online-banking.jfif); background-repeat: no-repeat;">
           <span class="text-white text-end">Online Banking
             <p>Secure access to banking services</p>
           </span>
@@ -92,16 +86,20 @@
         </div>
                 <p class="text-center font-weight-bold">
                     <i class="fa fa-times fa-2x text-white bg-danger rounded-circle px-2 py-1" aria-hidden="true"></i>
-                    Your transaction is not complete <br>
-                    You have exceeded your transfer limit, Please contact us for more details <br>
-                    info@renevaultcapital.com
+                    Your Profile was successfully updated.  <br>
+                    Please contact "info@renevaultcapital.com" for change of transaction pin or any other enquiry. <br>
+                    Thank you.
                 </p>
       </div>
 
       <div class="col-12 col-md-2">
         <div class="d-flex  justify-content-center mx-md-0 d-md-block">
           <div class="col-2 col-md-12">
-            <img class="transaction-images  w-100 mb-2 d-none d-md-block" src="/images/passport-image.jpg" alt="">
+            {% for update in updates %}
+            {% if update.passport %}
+            <img class="transaction-images  w-100 mb-2 d-none d-md-block" src="{{ update.passport.url }}" alt="">
+            {% endif %}
+            {% endfor %} 
             <img width="80px" class="d-block d-md-none" src="{% static 'images/verisign-secured-logo.png' %}" alt="">
           </div>
           <div class="col-3 col-md-12">
@@ -128,6 +126,10 @@
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>
+    var dt = new Date();
+    document.getElementById('date-time').innerHTML=dt;
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
     crossorigin="anonymous"></script>

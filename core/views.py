@@ -122,6 +122,14 @@ def history(request):
     return render(request, template_name, context)
 
 @login_required
+def updated_profile(request):
+    template_name = "NoTransactionHistory.html"
+    user = request.user
+    updates = UpdateUser.objects.filter(user=user)
+    context = {'updates': updates} 
+    return render(request, template_name, context)
+
+@login_required
 def international(request):
     user =request.user
     updates = UpdateUser.objects.get(user=user).user.status

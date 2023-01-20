@@ -15,6 +15,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('history/', views.history, name='history'),
     path('payment/', views.payment, name='payment'),
+    path('updated-profile/', views.updated_profile, name='updated_profile'),
     path('international/', views.international, name='international'),
     path('local/', views.local, name='local'),
     path('profile/', views.profile, name='profile'),
